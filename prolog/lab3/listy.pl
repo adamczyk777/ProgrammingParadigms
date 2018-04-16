@@ -1,3 +1,5 @@
+trzeci([A,B,C|Reszta], C).
+
 porownaj([_,_,D,D|_]).
 
 
