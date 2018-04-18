@@ -1,139 +1,51 @@
-a(1). a(2). b(4). b(3).
- 
-wyp0(F,_) :-
-    call(F).
- 
-wyp1(F,X) :-
-    F,
-    F =.. [_,X].
- 
-wyp2(F,X) :-
-    functor(Pred,F,1),
-    Pred,
-    Pred =.. [_,X].
- 
-wyp3(F/A,X) :-
-    A = 1,
-    functor(Pred,F,A),
-    Pred,
-    Pred =.. [_,X].
+% dane
 
-:-  op(100,xfy, matka).
-julia matka marcin.
+rodzina(
+	osoba(jan, kowalski,data(5,kwiecien,1946),pracuje(tpsa,3000)),
+	osoba(anna,kowalski,data(8,luty,1949),    pracuje(szkola,1500)), 
+	[
+	 osoba(maria,kowalski,data(20,maj,1973),     pracuje(argo_turist,4000)),
+	 osoba(pawel,kowalski,data(15,listopad,1979),zasilek)]).
+       
+rodzina(
+	osoba(krzysztof, malinowski, data(24,lipiec,1950), bezrobocie),
+	osoba(klara, malinowski, data(9,styczen,1951), pracuje(kghm,8000)),
+	[
+	 osoba(monika, malinowski, data(19,wrzesien,1980), bezrobocie)]
+	).
 
-:-  op(300, xfx, ma).
-:-  op(200, xfy, i).
+% zaleznosci
 
-jas ma kota i psa.
-ala ma jasia i angine i dosc_agh.
-rybki i kanarki.
+maz(X) :-
+	rodzina(X,_,_).
 
-/*
- * rodzina1.pl
- * GJN 2005,6
- * based on Bratko, 3rd ed, ch.1, p.17
- *
- */
+zona(X) :-
+	rodzina(_,X,_).
 
-rodzic(kasia,robert).
-rodzic(tomek,robert).
-rodzic(tomek,ania).
-rodzic(robert,gosia).
-rodzic(robert,basia).
-rodzic(basia,janek).
+dziecko(X) :-
+	rodzina(_,_,Dzieci),
+	nalezy(X,Dzieci).
 
-kobieta(kasia).
-kobieta(ania).
-kobieta(basia).
-kobieta(gosia).
+istnieje(Osoba) :-
+	maz(Osoba)
+	;
+	zona(Osoba)
+	;
+	dziecko(Osoba).
 
-mezczyzna(tomek).
-mezczyzna(robert).
-mezczyzna(janek).
+data_urodzenia(osoba(_,_,Data,_),Data).
 
-dziecko(X,Y) :-
-	rodzic(Y,X).
+pensja(osoba(_,_,_,pracuje(_,P)),P).
+pensja(osoba(_,_,_,zasilek),500).
+pensja(osoba(_,_,_,bezrobocie),0).
 
-matka(X,Y) :-
-	rodzic(X,Y),
-	kobieta(X).
+zarobki([],0).
+zarobki([Osoba|Lista],Suma) :-
+	pensja(Osoba,S),
+	zarobki(Lista,Reszta),
+	Suma is S + Reszta.
 
-ojciec(X,Y) :-
-	rodzic(X,Y),
-	mezczyzna(X).
-
-dziadkowie(X,Y) :-
-	rodzic(X,Z),
-	rodzic(Z,Y).
-
-dziadek(X,Y) :-
-	dziadkowie(X,Y),
-	mezczyzna(X).
-
-babcia(X,Y) :-
-	dziadkowie(X,Y),
-	kobieta(X).
-
-siostra(X,Y) :-
-	rodzic(Z,X),
-	rodzic(Z,Y),
-	kobieta(X),
-	X \= Y.
-
-brat(X,Y) :-
-	rodzic(Z,X),
-	rodzic(Z,Y),
-	mezczyzna(X),
-	X \= Y.
-
-przodek(X,Y) :-
-	rodzic(X,Y).
-
-przodek(X,Z) :-
-	rodzic(X,Y),
-	przodek(Y,Z).
-
-potomek(X,Y) :-
-	rodzic(Y,X).
-
-potomek(Z,X) :-
-	rodzic(Y,Z),
-	potomek(Y,X).
-
-%%
-ma_dziecko(X) :-
-	rodzic(X,_).
-
-%% ex 1.3
-szczesliwy(X) :-
-	ma_dziecko(X).
-
-ma_dwoje_dzieci(X) :-
-	rodzic(X,Y),
-	siostra(_,Y).
-
-ma_dwoje_dzieci(X) :-
-	rodzic(X,Y),
-	brat(_,Y).
-
-%% ex 1.4
-wnuk(X,Z) :-
-	rodzic(Y,X),
-	rodzic(Z,Y).
-
-%% ex 1.5
-ciocia(X,Y) :-
-	rodzic(Z,Y),
-	siostra(X,Z).
-
-:- include(readstr).
- 
-odpowiedz :-
-	write('\'matka\' czy \'ojciec\'? '),
-	read_atom(X),
-	write('kogo? '),
-	read_atom(Y),
-	Q =.. [X,Kto,Y],
-	display(Q),
-	call(Q),
-	write(Kto), nl.
+% narzedzia
+nalezy(X,[X|_]).
+nalezy(X,[_|Yogon]) :-
+	nalezy(X,Yogon).

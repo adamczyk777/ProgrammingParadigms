@@ -1,6 +1,6 @@
 ksiazka(16, 'Flatlandia', autor('Edvin Abbot', 1838-1926),wydanie('Sell & Co',1884)).
 ksiazka(28, 'R. U. R.', autor('Karel Capek', 1890-1938),wydanie('Palyers Press',2002)).
-ksiazka(34, 'Kobieta z wydm', autor('Kobo Abe', 1924-1993),wydanie('Wydawnictwo Znak',2007)). 
+ksiazka(34, 'Kobieta z wydm', autor('Kobo Abe', 1924-1993),wydanie('Wydawnictwo Znak',2007)).
 ksiazka(36, 'Zamek', autor('Frans Kafka', 1883-1924),wydanie('Zielona Sowa',2001)).
 ksiazka(37, 'Gargantua i Pantagruel', autor(' François Rabelais', 1494- 1553),wydanie('Siedmioróg',2004)).
 
@@ -8,10 +8,12 @@ ksiazka(37, 'Gargantua i Pantagruel', autor(' François Rabelais', 1494- 1553),
 % 1. książki wydane po śmierci swojego autora
 % odp. ksiazka(_,Ksiazka,autor(_,_-Smierc),wydanie(_,Wydanie)),Smierc<Wydanie.
 
-wydaniePoSmierci(X) :-
+wydaniePoSmierci() :-
     ksiazka(_,X,autor(_,_-Smierc),wydanie(_,Wydanie)),
-    Smierc<Wydanie.
-    
+    Smierc<Wydanie,
+    write(X),
+    fail.
+
 % 2. autorów, którzy mieli szansę się spotkać(żyli w tym samym czasie)
 % odp.
 
@@ -26,4 +28,3 @@ spotkaliSie(X,Y) :-
 % odp.
 
 % ???
-
