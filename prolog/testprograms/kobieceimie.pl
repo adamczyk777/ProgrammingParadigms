@@ -10,5 +10,5 @@ dodajImie(I):-
 
 dodajImie(I):-
   Term =.. [kobieceImie, I],
-  assertz(Term).
+  assert(Term).
 
