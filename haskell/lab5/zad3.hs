@@ -3,4 +3,7 @@
 --Np możesz użyć predykatu porównującego osoby po peselu co umożliwi wyszukiwanie pierwszej osoby w liście o danym peselu.
 
 find :: (a -> Bool) -> [a] -> Maybe a
-find fun arr =
+find fun (x:xs) 
+    | (fun x == True) = Just x
+    | (length xs == 0) = Nothing
+    | otherwise = find fun xs
