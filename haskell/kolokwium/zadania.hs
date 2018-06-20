@@ -12,7 +12,10 @@ data Student = Student {
     id :: Int, 
     name :: String, 
     dateOfBirth :: String
-} deriving Show
+}
+
+instance Show Student where
+    show (Student id name date) = "----------------------" ++ "\nName: "++ name ++ "\nYear of birth: " ++ date ++"\nID: " ++ (show id) ++ "\n----------------------"
 
 instance Eq Student where
     a == b = Main.id a == Main.id b
@@ -22,10 +25,13 @@ data Score = Score {
     course1Score :: Int,
     course2Score :: Int,
     course3Score :: Int
-} deriving Show
+}
 
 instance Eq Score where
     a == b = studentId a == studentId b
+
+instance Show Score where
+    show (Score id a b c) = "----------------------" ++ "\nID: " ++ (show id) ++ "\nScore 1: " ++ (show a) ++ "\nScore 2: " ++ (show b) ++ "\nScore 3: " ++ (show c) ++ "\n----------------------"
 
 
 data StudentWithScores = StudentWithScores Int String String Int Int Int deriving (Eq, Show)
