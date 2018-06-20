@@ -1,4 +1,5 @@
 import Data.List
+import Data.Maybe
 -------------------------------------------------------------------------------
 -- 1. Mamy dane typy danych:
 -- data Student = Student {id :: Int, name :: String, dateOfBirth :: String}
@@ -41,7 +42,8 @@ sortByName = sortBy compareNames
     where compareNames (Student _ name1 _) (Student _ name2 _) = compare name1 name2
 
 
--- zdefiniuj funkcję sortującą rekordy wyników tak, żeby rekordy były posortowane najpierw po wyniku z pierwszego kursu, a następnie (dla remisów) po id studneta
+-- zdefiniuj funkcję sortującą rekordy wyników tak, żeby rekordy były posortowane najpierw po wyniku z pierwszego kursu, 
+-- a następnie (dla remisów) po id studneta
 sortByScores :: [Score] -> [Score]
 sortByScores = sortBy compare_
     where compare_ (Score _ scoreA1 scoreB1 _) (Score _ scoreA2 scoreB2 _)
@@ -96,16 +98,22 @@ reduceBy f scrs = foldl f [] scrs
 -- 10. Przy użyciu funkcji map zdefinuj funkcję o sygnaturze
 mapToJoin :: Student -> [Score] -> [Maybe StudentWithScores]
 -- Wykorzystaj już zdefiniwane wcześniej funkcje
-
-
--------------------------------------------------------------------------------
--- 11. Zdefiniuj funkcję joinStep1 :: [Student] -> [Score] -> [(Student, [Score])]
+mapToJoin s scores = map (toStudentWithScores s) scores 
 
 -------------------------------------------------------------------------------
--- 12. Zdefiniuj funkcję joinStep2 :: [(Student, [Score])] -> [[Maybe StudentWithScores]]
+-- 11. Zdefiniuj funkcję 
+joinStep1 :: [Student] -> [Score] -> [(Student, [Score])]
+joinStep1 students scores = map (\student -> (student, findById scores (Main.id student))) students
 
 -------------------------------------------------------------------------------
--- 13. Zdefiniuj funkcję joinStep3 :: [[Maybe StudentWithScores]] -> [StudentWithScores]
+-- 12. Zdefiniuj funkcję 
+joinStep2 :: [(Student, [Score])] -> [[Maybe StudentWithScores]]
+joinStep2 studentScoresTuples = map (\el -> mapToJoin (fst el) (snd el)) studentScoresTuples
+
+-------------------------------------------------------------------------------
+-- 13. Zdefiniuj funkcję 
+joinStep3 :: [[Maybe StudentWithScores]] -> [StudentWithScores]
+
 
 -------------------------------------------------------------------------------
 -- 14. Zdefiniuj funkcję join :: [Student] -> [Score] -> [StudentWithScores]
@@ -113,11 +121,16 @@ mapToJoin :: Student -> [Score] -> [Maybe StudentWithScores]
 -------------------------------------------------------------------------------
 -- 15. Zdefiniuj klasę Id która rozszerza klasę Ord i zawiera pojedyncza metodę toInt konwertującą daną implementację na typ Int
 
+
 -------------------------------------------------------------------------------
 -- 16. Zdefiniuj klasę HasId zawiera pojedyncza metodę getId konwertującą daną implementację na dane typu Id
 
 -------------------------------------------------------------------------------
--- 17. Zdefiniuj klasę Repository zawierające operacje insert, delete, get, update i count. insert pobiera element implementujący HasId i implementacje repozytorium i zwraca nowe repozytorium. delete pobiera id należące do klasy Id i implementacje repozytorium i zwraca nowe repozytorium get pobiera id należące do klasy Id i implementacje repozytorium i zwraca Maybe element należący do klasy HasId. update pobiera id należące do klasy Id, element implementujący HasId i implementacje repozytorium i zwraca nowe repozytorium. count pobierające implementacje repozytorium i zwraca Int
+-- 17. Zdefiniuj klasę Repository zawierające operacje insert, delete, get, update i count. insert pobiera element implementujący 
+-- HasId i implementacje repozytorium i zwraca nowe repozytorium. delete pobiera id należące do klasy Id i implementacje repozytorium
+-- i zwraca nowe repozytorium get pobiera id należące do klasy Id i implementacje repozytorium i zwraca Maybe element należący do klasy HasId. 
+-- update pobiera id należące do klasy Id, element implementujący HasId i implementacje repozytorium i zwraca nowe repozytorium. 
+-- count pobierające implementacje repozytorium i zwraca Int
 
 -------------------------------------------------------------------------------
 -- 18. Zdefiniuj typ InMemoryRepository który posiada jedno pole typu Map key value i należy do klasy Repository
