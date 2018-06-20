@@ -1,13 +1,16 @@
 import Data.List
 import Data.Maybe
 -------------------------------------------------------------------------------
--- 1. Mamy dane typy danych:
--- data Student = Student {id :: Int, name :: String, dateOfBirth :: String}
--- data Score = Score {studentId :: Int, course1Score :: Int,
--- course2Score :: Int, course3Score :: Int}
--- Zdefiniuj typ StudentWithScores który będzie posiadał pola takie jak w typie danych Student 
--- i takie jak w typie danych Score (bez powtórzenia id). Uwaga na konflikt nazw w module! Jak można rozwiązać problem nazw?
+{-
 
+1. Mamy dane typy danych:
+data Student = Student {id :: Int, name :: String, dateOfBirth :: String}
+data Score = Score {studentId :: Int, course1Score :: Int,
+course2Score :: Int, course3Score :: Int}
+Zdefiniuj typ StudentWithScores który będzie posiadał pola takie jak w typie danych Student 
+i takie jak w typie danych Score (bez powtórzenia id). Uwaga na konflikt nazw w module! Jak można rozwiązać problem nazw?
+
+-}
 data Student = Student {
     id :: Int, 
     name :: String, 
@@ -37,7 +40,11 @@ instance Show Score where
 data StudentWithScores = StudentWithScores Int String String Int Int Int deriving (Eq, Show)
 
 -------------------------------------------------------------------------------
--- 4. Dla przykładowych danych students i scores
+{- 
+
+4. Dla przykładowych danych students i scores
+
+-}
 students :: [Student]
 students = [Student 26453 "Kristalee Copperwaite" "2000", Student 33596 "Roeberta Naden" "1997", Student 35000 "Jakub Adamczyk" "1997"]
 scores :: [Score]
@@ -70,10 +77,15 @@ sortByScoresSum = sortBy compareSum
     where compareSum (Score _ a1 b1 c1) (Score _ a2 b2 c2) = compare (a1 + b1 + c1) (a2 + b2 + c2)
 
 -------------------------------------------------------------------------------
--- 5. Zdefiniuj fukcję o sygnaturze
+
+{- 
+5. Zdefiniuj fukcję o sygnaturze
+-}
 toStudentWithScores :: Student -> Score -> Maybe StudentWithScores
--- która zwróci połączony rekord studenta z jego wynikami, 
--- jeśli studentId jest równe id a Nothing w przeciwnym wypadku
+{- 
+która zwróci połączony rekord studenta z jego wynikami, 
+jeśli studentId jest równe id a Nothing w przeciwnym wypadku
+-}
 
 toStudentWithScores (Student id name date) (Score studentId sc1 sc2 sc3)
     | studentId == id = Just $ StudentWithScores id name date sc1 sc2 sc3
@@ -131,8 +143,9 @@ class Ord a => Id a where
     toInt :: a -> Int
 
 -------------------------------------------------------------------------------
--- 16. Zdefiniuj klasę HasId zawiera pojedyncza metodę getId konwertującą daną implementację na dane typu Id
-
+-- 16. Zdefiniuj klasę HasId zawiera pojedyncza metodę getId konwertującą daną implementację na dane typu Id ????
+class HasId a where
+    getId :: Id b => a b -> b
 
 -------------------------------------------------------------------------------
 -- 17. Zdefiniuj klasę Repository zawierające operacje insert, delete, get, update i count. insert pobiera element implementujący 
