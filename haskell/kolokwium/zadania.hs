@@ -14,12 +14,19 @@ data Student = Student {
     dateOfBirth :: String
 } deriving Show
 
+instance Eq Student where
+    a == b = Main.id a == Main.id b
+
 data Score = Score {
     studentId :: Int,
     course1Score :: Int,
     course2Score :: Int,
     course3Score :: Int
 } deriving Show
+
+instance Eq Score where
+    a == b = studentId a == studentId b
+
 
 data StudentWithScores = StudentWithScores Int String String Int Int Int deriving (Eq, Show)
 
@@ -111,19 +118,12 @@ joinStep2 :: [(Student, [Score])] -> [[Maybe StudentWithScores]]
 joinStep2 studentScoresTuples = map (\el -> mapToJoin (fst el) (snd el)) studentScoresTuples
 
 -------------------------------------------------------------------------------
--- 13. Zdefiniuj funkcję 
-joinStep3 :: [[Maybe StudentWithScores]] -> [StudentWithScores]
-
-
--------------------------------------------------------------------------------
--- 14. Zdefiniuj funkcję join :: [Student] -> [Score] -> [StudentWithScores]
-
--------------------------------------------------------------------------------
 -- 15. Zdefiniuj klasę Id która rozszerza klasę Ord i zawiera pojedyncza metodę toInt konwertującą daną implementację na typ Int
-
+-- class Id
 
 -------------------------------------------------------------------------------
 -- 16. Zdefiniuj klasę HasId zawiera pojedyncza metodę getId konwertującą daną implementację na dane typu Id
+
 
 -------------------------------------------------------------------------------
 -- 17. Zdefiniuj klasę Repository zawierające operacje insert, delete, get, update i count. insert pobiera element implementujący 
@@ -139,3 +139,28 @@ joinStep3 :: [[Maybe StudentWithScores]] -> [StudentWithScores]
 -- Data.Map.alter :: Ord k => (Maybe a -> Maybe a) -> k -> Map k a -> Map k a
 -- Data.Map.lookup :: Ord k => k -> Map k a -> Maybe a
 -- Data.Map.size :: Map k a -> Int
+
+
+-------------------------------------------------------------------------------
+-- 19. Jak wygląda definicja instacji dla klasy Applicative, Functor i Monad dla typu danych Maybe
+
+-- class Functor (f :: * -> *) where
+    --  fmap :: (a -> b) -> f a -> f b
+    --  (<$) :: a -> f b -> f a
+    --  {-# MINIMAL fmap #-}
+--    class Functor f => Applicative (f :: * -> *) where
+    --  pure :: a -> f a
+    --  (<*>) :: f (a -> b) -> f a -> f b
+    --  (*>) :: f a -> f b -> f b
+    --  (<*) :: f a -> f b -> f a
+    --  {-# MINIMAL pure, (<*>) #-}
+--    class Applicative m => Monad (m :: * -> *) where
+    --  (>>=) :: m a -> (a -> m b) -> m b
+    --  (>>) :: m a -> m b -> m b
+    --  return :: a -> m a
+    --  fail :: String -> m a
+    --  {-# MINIMAL (>>=) #-}
+
+-------------------------------------------------------------------------------
+-- 20. napisz program typu hello world wczytujący imię ze standardowego wejścia i wypisujący na standar-
+-- dowe wyjście to imie kapitalikami + hello a pozniej goodbye + to imie w odwroconej kolejnosci
