@@ -127,6 +127,9 @@ joinStep2 studentScoresTuples = map (\el -> mapToJoin (fst el) (snd el)) student
 -- 15. Zdefiniuj klasę Id która rozszerza klasę Ord i zawiera pojedyncza metodę toInt konwertującą daną implementację na typ Int
 -- class Id
 
+class Ord a => Id a where
+    toInt :: a -> Int
+
 -------------------------------------------------------------------------------
 -- 16. Zdefiniuj klasę HasId zawiera pojedyncza metodę getId konwertującą daną implementację na dane typu Id
 
