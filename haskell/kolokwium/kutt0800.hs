@@ -41,7 +41,8 @@ kwadraty start ile = map (\el -> el^2) [start..(start + ile)]
 -- ghci> podwojnaMapa (+10) (+100) [1, 2, 3, 4, 5]
 -- [11, 102, 13, 104, 15]
 podwojnaMapa :: (a -> b) -> (a -> b) -> [a] -> [b]
-
+podwojnaMapa _ _ [] = []
+podwojnaMapa f g (x:xs) = f x : podwojnaMapa g f xs
 
 -----------------------------------------------------------------------------
 
@@ -61,7 +62,8 @@ data Naturalna = Zero | Kolejna Naturalna
 -- ghci> naturalnaToInt (Kolejna (Kolejna (Kolejna Zero)))
 -- 3
 naturalnaToInt :: Naturalna -> Int
-naturalnaToInt = undefined
+naturalnaToInt Zero = 0
+naturalnaToInt (Kolejna x) = 1 + naturalnaToInt x
 
 --------------------------------------
 
