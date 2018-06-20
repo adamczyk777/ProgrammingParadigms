@@ -1,7 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
 
--- IMIĘ I NAZWISKO: _________________
-
 -----------------------------------------------------------------------------
 
 -- SEKCJA 1: PROSTE LISTY NA ROZGRZEWKĘ
@@ -14,7 +12,7 @@
 -- [5, 13]
 
 parzyste :: [Int] -> [Int]
-parzyste xs = snd (foldr (\x ~(ys,zs) -> (x:zs, ys)) ([],[]) xs)
+parzyste arr = [x | (x, i) <- zip arr [1..], i `mod` 2 == 0]
 
 --------------------------------------
 
@@ -30,7 +28,7 @@ parzyste xs = snd (foldr (\x ~(ys,zs) -> (x:zs, ys)) ([],[]) xs)
 -- ghci> kwadraty 2 0
 -- []
 kwadraty :: Int -> Int -> [Int]  -- ******* TODO: testy z 0 2 nie przechodzą 
-kwadraty x n = map (^2) [x..(x+n-1)]
+kwadraty start ile = map (\el -> el^2) [start..(start + ile)]
 
 -----------------------------------------------------------------------------
 
@@ -43,9 +41,6 @@ kwadraty x n = map (^2) [x..(x+n-1)]
 -- ghci> podwojnaMapa (+10) (+100) [1, 2, 3, 4, 5]
 -- [11, 102, 13, 104, 15]
 podwojnaMapa :: (a -> b) -> (a -> b) -> [a] -> [b]
-podwojnaMapa _ _ [] = []
-podwojnaMapa f g (x:xs) = (f x) : podwojnaMapa g f xs 
-
 
 
 -----------------------------------------------------------------------------

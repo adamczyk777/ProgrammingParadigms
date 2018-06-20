@@ -153,6 +153,13 @@ class HasId a where
 -- i zwraca nowe repozytorium get pobiera id należące do klasy Id i implementacje repozytorium i zwraca Maybe element należący do klasy HasId. 
 -- update pobiera id należące do klasy Id, element implementujący HasId i implementacje repozytorium i zwraca nowe repozytorium. 
 -- count pobierające implementacje repozytorium i zwraca Int
+class Repository a where
+    insert :: 
+    delete ::
+    get :: 
+    update ::
+    count :: 
+
 
 -------------------------------------------------------------------------------
 -- 18. Zdefiniuj typ InMemoryRepository który posiada jedno pole typu Map key value i należy do klasy Repository
